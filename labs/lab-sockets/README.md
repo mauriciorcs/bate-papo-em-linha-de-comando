@@ -55,3 +55,80 @@ Para executar o cliente UDP na linha de comando, rode:
 Em seguida, digite na linha de comando do cliente a mensagem que desejar enviar para o servidor e veja o que acontece. Analise novamente o código para identificar cada passo do que acontece.
 
 Explore diferentes situações, por exemplo, você pode rodar mais de um cliente ao mesmo tempo para ver se o servidor consegue receber conexões e mensagens simultâneas de clientes.
+
+
+
+# Chat em Linha de Comando
+
+Este projeto é um sistema de chat baseado em linha de comando que utiliza sockets TCP para comunicação entre um servidor e múltiplos clientes. O código permite a troca de mensagens em tempo real entre os usuários.
+
+## Estrutura do Código
+
+O código é dividido em duas partes principais:
+
+- **Servidor (`ChatServer.java`)**: Gerencia conexões de clientes e distribui mensagens entre eles.
+- **Cliente (`ChatClient.java`)**: Permite que o usuário envie e receba mensagens do servidor.
+
+## Servidor
+
+### `ChatServer`
+
+- **Descrição**: O servidor escuta por conexões de clientes em uma porta especificada e retransmite mensagens recebidas para todos os clientes conectados.
+- **Como Funciona**:
+    - Cria um `ServerSocket` na porta 6666 e aguarda conexões de clientes.
+    - Para cada cliente conectado, um `ClientHandler` é criado em uma nova thread.
+    - Recebe mensagens de clientes e as distribui para todos os clientes conectados.
+
+## Cliente
+
+### `ChatClient`
+
+- **Descrição**: O cliente conecta-se ao servidor e permite ao usuário enviar e receber mensagens.
+- **Como Funciona**:
+    - Conecta-se ao servidor e obtém um identificador único.
+    - Envia mensagens digitadas pelo usuário para o servidor.
+    - Recebe e exibe mensagens de outros clientes.
+    - Não exibe suas próprias mensagens recebidas para evitar redundância.
+
+## Funções Importantes
+
+### Servidor (`ChatServer.java`)
+
+- **`start`**:
+    - **Descrição**: Inicia o servidor, escuta por conexões e distribui mensagens.
+    - **Como Funciona**:
+        - Cria o `ServerSocket` e aceita conexões de clientes.
+        - Para cada cliente, cria uma nova thread para gerenciar a comunicação.
+
+### Cliente (`ChatClient.java`)
+
+- **`start`**:
+    - **Descrição**: Conecta o cliente ao servidor e permite a troca de mensagens.
+    - **Como Funciona**:
+        - Conecta-se ao servidor e inicia threads para enviar e receber mensagens.
+        - Exibe as mensagens recebidas com um prefixo indicando o cliente remetente.
+
+## Utilização
+
+1. **Iniciar o Servidor**:
+    - Execute o servidor em uma linha de comando:
+      ```sh
+      java -cp bin ChatServer
+      ```
+    - O servidor começará a escutar na porta 6666 por conexões de clientes.
+
+2. **Iniciar o Cliente**:
+    - Execute o cliente em uma linha de comando:
+      ```sh
+      java -cp bin ChatClient
+      ```
+    - Cada cliente se conectará ao servidor e exibirá um identificador único.
+
+3. **Troca de Mensagens**:
+    - No terminal do cliente, digite mensagens para enviar ao servidor.
+    - As mensagens enviadas por um cliente serão exibidas para todos os clientes conectados.
+
+## Observações
+
+- **Identificação do Cliente:** Mensagens enviadas são prefixadas com "Você:" para o cliente que enviou e "Cliente X:" para os outros clientes.
+- **Suporte a Múltiplos Clientes:** O servidor lida com múltiplos clientes simultaneamente.
